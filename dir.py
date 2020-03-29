@@ -1,54 +1,97 @@
 import os
 import collections
-
-from .ChangeDirectory import ChangeDirectory
+from pathlib import Path
+from cd import ChangeDirectory
 
 
 class DirectoryStructure:
     """
-    A class to create a directory structure according to the structure defined.
-
-    Attributes
-    ----------
-    structure: dictionary<dictionary<...>>
-        A dictionary of dictionaries representing the directory structure.
-
-        e.g.: { "one": {
-                    "eleven": {},
-                    "twelve": {}
-                },
-                "two": {}
-              }
+    A class to create a directory structure in the current directory depending
+    on the structure defined.
     """
+
     def __init__(self, structure):
-        DirectoryStructure.__checkStructure(structure)
-        DirectoryStructure.__createDirectory(structure)
+        """
+        Class constructor.
+
+        Args:
+            structure (dict):
+                The directory structure to create in the current directory.
+                It is typically a dictionary of dictionaries or strings
+                representing the directory structure.
+                The empty dictionaries represent directories, while the strings
+                represent files.
+
+                e.g.: { "one": {
+                            "eleven": {},
+                            "twelve": {
+                                "file.txt": "",
+                                "anotherfile.jpeg": "",
+                                "inner-directory": {}
+                            }
+                        },
+                        "two.py": ""
+                    }
+        """
+
+        DirectoryStructure.__validate(structure)
+        DirectoryStructure.__create(structure)
 
 
     @staticmethod
-    def __createDirectory(structure):
+    def __create(structure):
         """
-        This method needs to be static so that we can pass the leaves of the
-        structure to itself recursively.
-        """
-        for directoryName, directoryContent in structure.items():
-            os.mkdir(directoryName)
+        Create the provided files, and directories in the structure.
 
-            with cd(directoryName):
-                DirectoryStructure.__createDirectory(directoryContent)
+        Args:
+            structure (dict): The directory structure to create in the current directory.
+        """
+
+        for name, structure in structure.items():
+            if isinstance(structure, str):
+                Path(name).touch()
+            elif isinstance(structure, collections.Mapping):
+                os.mkdir(name)
+
+                with ChangeDirectory(name):
+                    DirectoryStructure.__create(structure)
 
 
     @staticmethod
-    def __checkStructure(dictionary):
+    def __validate(structure):
         """
-        This method needs to be static so that we can pass the leaves of the
-        dictionary to itself recursively.
-        """
-        if not isinstance(dictionary, collections.Mapping):
-            raise ValueError("The directory structure provided is ill-formed")
+        Validates the directory structure provided.
 
-        for directoryName, directoryContent in dictionary.items():
-            if isinstance(directoryContent, collections.Mapping):
-                DirectoryStructure.__checkStructure(directoryContent)
-            else:
-                raise ValueError("The directory structure provided is ill-formed")
+        Args:
+            structure (dict): The directory structure to validate.
+
+        Raises:
+            ValueError: If the given structure is invalid.
+        """
+
+        errorMessage = "The directory structure provided is ill-formed"
+
+        if not DirectoryStructure.__isValid(structure):
+            raise ValueError(errorMessage)
+
+        if isinstance(structure, collections.Mapping):
+            for name, structure in structure.items():
+                if not DirectoryStructure.__isValid(structure):
+                    raise ValueError(errorMessage)
+
+                DirectoryStructure.__validate(structure)
+
+
+    @staticmethod
+    def __isValid(structure):
+        """
+        Checks if a given structure is valid.
+
+        Args:
+            structure (dict): The directory structure to validate.
+
+        Returns:
+            bool: True if the given structure is valid, False otherwise.
+        """
+
+        return isinstance(structure, collections.Mapping) or isinstance(structure, str)

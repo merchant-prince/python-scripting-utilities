@@ -1,7 +1,9 @@
 class Colors:
     """
-    This is a utility class to store the color codes used in the Print
-    class.
+    This is a utility class to store the color codes used in the Print class.
+
+    Attributes:
+        CODE (dict): The color codes used throughout this class.
     """
 
     CODE = {
@@ -14,6 +16,16 @@ class Colors:
 
 
     def __create(self, colorCode):
+        """
+        Format a terminal line to accept the specified color codes.
+
+        Args:
+            colorCode (str): The terminal colors to use in the formatting.
+
+        Returns:
+            str: The formatted string.
+        """
+
         CSI = "\033["
         END = "m"
 
@@ -21,133 +33,239 @@ class Colors:
 
 
     def __message(self, colorCode):
+        """
+        Format the terminal line to use the specified foreground color.
+
+        Args:
+            colorCode (str): The terminal color to use in the foreground.
+
+        Returns:
+            str: The formatted message string.
+        """
+
         FOREGROUND = "40;38;5"
 
         return f"{FOREGROUND};{colorCode}"
 
 
     def __banner(self, colorCode):
+        """
+        Format the terminal line to use the specified background color.
+
+        Args:
+            colorCode (str): The terminal color to use in the background.
+
+        Returns:
+            str: The formatted banner string.
+        """
+
         BACKGROUND = "30;48;5"
 
         return f"{BACKGROUND};{colorCode}"
 
 
     def __getattr__(self, name):
+        """
+        Returns a color-formatted line.
+
+        Args:
+            name (str):
+                A string depicting the color-type and the display-type of the
+                string to format.
+                The color-type can be one of:
+                    * SUCCESS
+                    * INFO
+                    * WARNING
+                    * ERROR
+                The display-type can be one of:
+                    * BANNER
+                    * MESSAGE
+
+                It should be separated by an underscore and ordered as follows:
+                    [color-type]_[display-type] --> e.g.: "SUCCESS_BANNER"
+
+                Except when the RESET value is required.
+
+        Returns:
+            str: A color-coded string.
+
+        Raises:
+            ValueError: If the provided 'name' is invalid.
+        """
+
         tokens = name.split("_")
 
         if len(tokens) == 1:
             if tokens[0] == "RESET":
-                return self.__create(Color.CODE["RESET"])
+                return self.__create(Colors.CODE["RESET"])
 
         elif len(tokens) == 2:
             colorType, displayType = tokens
 
             if displayType == "BANNER":
                 if colorType == "SUCCESS":
-                    return self.__create(self.__banner(Color.CODE["CHARTREUSE"]))
+                    return self.__create(self.__banner(Colors.CODE["CHARTREUSE"]))
 
                 elif colorType == "INFO":
-                    return self.__create(self.__banner(Color.CODE["CYAN"]))
+                    return self.__create(self.__banner(Colors.CODE["CYAN"]))
 
                 elif colorType == "WARNING":
-                    return self.__create(self.__banner(Color.CODE["YELLOW"]))
+                    return self.__create(self.__banner(Colors.CODE["YELLOW"]))
 
                 elif colorType == "ERROR":
-                    return self.__create(self.__banner(Color.CODE["RED_SINDOOR"]))
+                    return self.__create(self.__banner(Colors.CODE["RED_SINDOOR"]))
 
             elif displayType == "MESSAGE":
                 if colorType == "SUCCESS":
-                    return self.__create(self.__message(Color.CODE["CHARTREUSE"]))
+                    return self.__create(self.__message(Colors.CODE["CHARTREUSE"]))
 
                 elif colorType == "INFO":
-                    return self.__create(self.__message(Color.CODE["CYAN"]))
+                    return self.__create(self.__message(Colors.CODE["CYAN"]))
 
                 elif colorType == "WARNING":
-                    return self.__create(self.__message(Color.CODE["YELLOW"]))
+                    return self.__create(self.__message(Colors.CODE["YELLOW"]))
 
                 elif colorType == "ERROR":
-                    return self.__create(self.__message(Color.CODE["RED_SINDOOR"]))
+                    return self.__create(self.__message(Colors.CODE["RED_SINDOOR"]))
 
         raise ValueError(f"{name} is not a valid attribute")
 
 
 
 
-Color = Colors()
-
-
-
-
 class Print:
     """
-    This class is used to pretty-print messages
+    This class is used to pretty-print messages.
+
+    Attributes:
+        Color (Colors): The Colors helper class.
     """
+
+    Color = Colors()
 
     @staticmethod
     def success(message):
-        """Prints a coloured success message"""
+        """
+        Print a coloured success-message.
 
-        print(Print.__line(Color.SUCCESS_BANNER, "Success", Color.SUCCESS_MESSAGE, message), end='')
+        Args:
+            message (str): The message to print.
+        """
+
+        print(Print.__line(Print.Color.SUCCESS_BANNER, "Success", Print.Color.SUCCESS_MESSAGE, message), end='')
 
 
     @staticmethod
     def info(message):
-        """Prints a coloured info message"""
+        """
+        Print a coloured info-message.
 
-        print(Print.__line(Color.INFO_BANNER, "Info", Color.INFO_MESSAGE, message), end='')
+        Args:
+            message (str): The message to print.
+        """
+
+        print(Print.__line(Print.Color.INFO_BANNER, "Info", Print.Color.INFO_MESSAGE, message), end='')
 
 
     @staticmethod
     def warning(message):
-        """Prints a coloured warning message"""
+        """
+        Print a coloured warning-message.
 
-        print(Print.__line(Color.WARNING_BANNER, "Warning", Color.WARNING_MESSAGE, message), end='')
+        Args:
+            message (str): The message to print.
+        """
+
+        print(Print.__line(Print.Color.WARNING_BANNER, "Warning", Print.Color.WARNING_MESSAGE, message), end='')
 
 
     @staticmethod
     def error(message):
-        """Prints a coloured error message"""
+        """
+        Print a coloured error-message.
 
-        print(Print.__line(Color.ERROR_BANNER, "Error", Color.ERROR_MESSAGE, message), end='')
+        Args:
+            message (str): The message to print.
+        """
+
+        print(Print.__line(Print.Color.ERROR_BANNER, "Error", Print.Color.ERROR_MESSAGE, message), end='')
 
 
     @staticmethod
     def ok():
-        """Prints a coloured ok message"""
+        """
+        Print a success-colored ok-string.
+        """
 
-        print(f"{Color.SUCCESS_MESSAGE} ...Ok {Color.RESET}", end='')
+        print(f"{Print.Color.SUCCESS_MESSAGE} ...Ok {Print.Color.RESET}", end='')
 
 
     @staticmethod
     def fail():
-        """Prints a coloured failure message"""
+        """
+        Print an error-colored fail-string.
+        """
 
-        print(f"{Color.ERROR_MESSAGE} ...Failed {Color.RESET}", end='')
+        print(f"{Print.Color.ERROR_MESSAGE} ...Failed {Print.Color.RESET}", end='')
 
 
     @staticmethod
     def eol(count=1):
-        """Prints an end of line character"""
+        """
+        Print the specified count of end-of-line characters.
+
+        Args:
+            count (int): The number of EOLs to print.
+        """
 
         print('\n' * count, end='')
 
 
     @staticmethod
     def __line(headerColor, header, messageColor, message):
-        """Returns a pretified line"""
+        """
+        Return a prettified line.
+
+        Args:
+            headerColor (str): The terminal color used to format the header.
+            header (str): The message to add to the header.
+            messageColor (str): The terminal color used to format the message.
+            message (str): The message to prettify.
+
+        Returns:
+            str: The color-formatted line.
+        """
 
         return f"{Print.__header(headerColor, header)}{Print.__message(messageColor, message)}"
 
 
     @staticmethod
     def __header(color, header):
-        """Returns a pretty-string of the header"""
+        """
+        Return a prettified string of the header.
 
-        return f"{color} {header}: {Color.RESET}"
+        Args:
+            color (str): The terminal color used to format the header.
+            header (str): The message to add to the header.
+
+        Returns:
+            str: The color-formatted header string.
+        """
+
+        return f"{color} {header}: {Print.Color.RESET}"
 
 
     @staticmethod
     def __message(color, message):
-        """Returns a pretty-string of the message"""
+        """
+        Return a prettified string of the message.
 
-        return f"{color}\ue0b0 {message} {Color.RESET}"
+        Args:
+            color (str): The terminal color used to format the message.
+            message (str): The message to prettify.
+
+        Returns:
+            str: The color-formatted message string.
+        """
+
+        return f"{color}\ue0b0 {message} {Print.Color.RESET}"
