@@ -1,10 +1,10 @@
 import os
-import collections
 from pathlib import Path
-from cd import ChangeDirectory
+from .cd import ChangeDirectory
+from collections.abc import Mapping
 
 
-class DirectoryStructure:
+class CreateSkeleton:
     """
     A class to create a directory structure in the current directory depending
     on the structure defined.
@@ -34,8 +34,8 @@ class DirectoryStructure:
                     }
         """
 
-        DirectoryStructure.__validate(structure)
-        DirectoryStructure.__create(structure)
+        CreateSkeleton.__validate(structure)
+        CreateSkeleton.__create(structure)
 
 
     @staticmethod
@@ -50,11 +50,11 @@ class DirectoryStructure:
         for name, structure in structure.items():
             if isinstance(structure, str):
                 Path(name).touch()
-            elif isinstance(structure, collections.Mapping):
+            elif isinstance(structure, Mapping):
                 os.mkdir(name)
 
                 with ChangeDirectory(name):
-                    DirectoryStructure.__create(structure)
+                    CreateSkeleton.__create(structure)
 
 
     @staticmethod
@@ -71,15 +71,15 @@ class DirectoryStructure:
 
         errorMessage = "The directory structure provided is ill-formed"
 
-        if not DirectoryStructure.__isValid(structure):
+        if not CreateSkeleton.__isValid(structure):
             raise ValueError(errorMessage)
 
-        if isinstance(structure, collections.Mapping):
+        if isinstance(structure, Mapping):
             for name, structure in structure.items():
-                if not DirectoryStructure.__isValid(structure):
+                if not CreateSkeleton.__isValid(structure):
                     raise ValueError(errorMessage)
 
-                DirectoryStructure.__validate(structure)
+                CreateSkeleton.__validate(structure)
 
 
     @staticmethod
@@ -94,4 +94,4 @@ class DirectoryStructure:
             bool: True if the given structure is valid, False otherwise.
         """
 
-        return isinstance(structure, collections.Mapping) or isinstance(structure, str)
+        return isinstance(structure, Mapping) or isinstance(structure, str)

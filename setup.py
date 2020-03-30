@@ -5,7 +5,7 @@ with open("README.md", "r") as file:
     long_description = file.read()
 
 setuptools.setup(
-    name="merchant-prince-scripting-utilities",
+    name="scripting-utilities",
     version="0.0.1",
     author="Harivansh",
     author_email="hello@harivan.sh",
