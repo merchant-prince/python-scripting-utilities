@@ -8,7 +8,7 @@ scripts.
 
 To install this package through pip, run the following:
 
-```
+```sh
 pip install -e git+https://github.com/merchant-prince/python-scripting-utilities#egg=scripting-utilities
 ```
 
@@ -29,6 +29,6 @@ from scripting_utilities.skeleton import CreateSkeleton
 
 To run the tests, ```cd``` into the root project directory, and run the following:
 
-```
+```sh
 python -m unittest discover
 ```
