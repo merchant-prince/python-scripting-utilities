@@ -3,8 +3,7 @@ import shutil
 import random
 import string
 import unittest
-from scripting_utilities.cd import ChangeDirectory
-from scripting_utilities.skeleton import CreateSkeleton
+from scripting_utilities import ChangeDirectory, CreateSkeleton
 
 
 class TestCreateSkeleton(unittest.TestCase):
@@ -16,7 +15,7 @@ class TestCreateSkeleton(unittest.TestCase):
         ]
 
         for structure in validStructures:
-            self.assertTrue(CreateSkeleton._CreateSkeleton__isValid(structure))
+            self.assertTrue(CreateSkeleton._isValid(structure))
 
 
     def test_returns_false_when_invalid_structure_provided(self):
@@ -27,7 +26,7 @@ class TestCreateSkeleton(unittest.TestCase):
         ]
 
         for structure in invalidStructures:
-            self.assertFalse(CreateSkeleton._CreateSkeleton__isValid(structure))
+            self.assertFalse(CreateSkeleton._isValid(structure))
 
 
     def test_does_not_raise_exception_on_valid_structure_validation(self):
@@ -42,7 +41,7 @@ class TestCreateSkeleton(unittest.TestCase):
             "file_2": ""
         }
 
-        self.assertTrue(CreateSkeleton._CreateSkeleton__validate(validStructure) is None)
+        self.assertTrue(CreateSkeleton._validate(validStructure) is None)
 
 
     def test_raises_exceptions_on_invalid_structure_validation(self):
@@ -57,7 +56,7 @@ class TestCreateSkeleton(unittest.TestCase):
             "file_2": ()
         }
 
-        self.assertRaises(ValueError, CreateSkeleton._CreateSkeleton__validate, invalidStructure)
+        self.assertRaises(ValueError, CreateSkeleton._validate, invalidStructure)
 
 
     def test_creates_skeleton_if_a_valid_structure_is_provided(self):

@@ -1,6 +1,6 @@
 import os
 import unittest
-from scripting_utilities.cd import ChangeDirectory
+from scripting_utilities import ChangeDirectory
 
 
 class TestChangeDirectory(unittest.TestCase):

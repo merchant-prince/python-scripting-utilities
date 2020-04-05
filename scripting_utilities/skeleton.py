@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
-from .cd import ChangeDirectory
 from collections.abc import Mapping
+from scripting_utilities import ChangeDirectory
 
 
 class CreateSkeleton:
@@ -34,12 +34,12 @@ class CreateSkeleton:
                     }
         """
 
-        CreateSkeleton.__validate(structure)
-        CreateSkeleton.__create(structure)
+        CreateSkeleton._validate(structure)
+        CreateSkeleton._create(structure)
 
 
     @staticmethod
-    def __create(structure):
+    def _create(structure):
         """
         Create the provided files, and directories in the structure.
 
@@ -54,11 +54,11 @@ class CreateSkeleton:
                 os.mkdir(name)
 
                 with ChangeDirectory(name):
-                    CreateSkeleton.__create(structure)
+                    CreateSkeleton._create(structure)
 
 
     @staticmethod
-    def __validate(structure):
+    def _validate(structure):
         """
         Validates the directory structure provided.
 
@@ -71,19 +71,19 @@ class CreateSkeleton:
 
         errorMessage = "The directory structure provided is ill-formed"
 
-        if not CreateSkeleton.__isValid(structure):
+        if not CreateSkeleton._isValid(structure):
             raise ValueError(errorMessage)
 
         if isinstance(structure, Mapping):
             for name, structure in structure.items():
-                if not CreateSkeleton.__isValid(structure):
+                if not CreateSkeleton._isValid(structure):
                     raise ValueError(errorMessage)
 
-                CreateSkeleton.__validate(structure)
+                CreateSkeleton._validate(structure)
 
 
     @staticmethod
-    def __isValid(structure):
+    def _isValid(structure):
         """
         Checks if a given structure is valid.
 

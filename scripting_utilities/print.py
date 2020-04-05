@@ -15,7 +15,7 @@ class Colors:
     }
 
 
-    def __create(self, colorCode):
+    def _create(self, colorCode):
         """
         Format a terminal line to accept the specified color codes.
 
@@ -32,7 +32,7 @@ class Colors:
         return f"{CSI}{colorCode}{END}"
 
 
-    def __message(self, colorCode):
+    def _message(self, colorCode):
         """
         Format the terminal line to use the specified foreground color.
 
@@ -48,7 +48,7 @@ class Colors:
         return f"{FOREGROUND};{colorCode}"
 
 
-    def __banner(self, colorCode):
+    def _banner(self, colorCode):
         """
         Format the terminal line to use the specified background color.
 
@@ -97,36 +97,36 @@ class Colors:
 
         if len(tokens) == 1:
             if tokens[0] == "RESET":
-                return self.__create(Colors.CODE["RESET"])
+                return self._create(Colors.CODE["RESET"])
 
         elif len(tokens) == 2:
             colorType, displayType = tokens
 
             if displayType == "BANNER":
                 if colorType == "SUCCESS":
-                    return self.__create(self.__banner(Colors.CODE["CHARTREUSE"]))
+                    return self._create(self._banner(Colors.CODE["CHARTREUSE"]))
 
                 elif colorType == "INFO":
-                    return self.__create(self.__banner(Colors.CODE["CYAN"]))
+                    return self._create(self._banner(Colors.CODE["CYAN"]))
 
                 elif colorType == "WARNING":
-                    return self.__create(self.__banner(Colors.CODE["YELLOW"]))
+                    return self._create(self._banner(Colors.CODE["YELLOW"]))
 
                 elif colorType == "ERROR":
-                    return self.__create(self.__banner(Colors.CODE["RED_SINDOOR"]))
+                    return self._create(self._banner(Colors.CODE["RED_SINDOOR"]))
 
             elif displayType == "MESSAGE":
                 if colorType == "SUCCESS":
-                    return self.__create(self.__message(Colors.CODE["CHARTREUSE"]))
+                    return self._create(self._message(Colors.CODE["CHARTREUSE"]))
 
                 elif colorType == "INFO":
-                    return self.__create(self.__message(Colors.CODE["CYAN"]))
+                    return self._create(self._message(Colors.CODE["CYAN"]))
 
                 elif colorType == "WARNING":
-                    return self.__create(self.__message(Colors.CODE["YELLOW"]))
+                    return self._create(self._message(Colors.CODE["YELLOW"]))
 
                 elif colorType == "ERROR":
-                    return self.__create(self.__message(Colors.CODE["RED_SINDOOR"]))
+                    return self._create(self._message(Colors.CODE["RED_SINDOOR"]))
 
         raise ValueError(f"{name} is not a valid attribute")
 
@@ -152,7 +152,7 @@ class Print:
             message (str): The message to print.
         """
 
-        print(Print.__line(Print.Color.SUCCESS_BANNER, "Success", Print.Color.SUCCESS_MESSAGE, message), end='')
+        print(Print._line(Print.Color.SUCCESS_BANNER, "Success", Print.Color.SUCCESS_MESSAGE, message), end='')
 
 
     @staticmethod
@@ -164,7 +164,7 @@ class Print:
             message (str): The message to print.
         """
 
-        print(Print.__line(Print.Color.INFO_BANNER, "Info", Print.Color.INFO_MESSAGE, message), end='')
+        print(Print._line(Print.Color.INFO_BANNER, "Info", Print.Color.INFO_MESSAGE, message), end='')
 
 
     @staticmethod
@@ -176,7 +176,7 @@ class Print:
             message (str): The message to print.
         """
 
-        print(Print.__line(Print.Color.WARNING_BANNER, "Warning", Print.Color.WARNING_MESSAGE, message), end='')
+        print(Print._line(Print.Color.WARNING_BANNER, "Warning", Print.Color.WARNING_MESSAGE, message), end='')
 
 
     @staticmethod
@@ -188,7 +188,7 @@ class Print:
             message (str): The message to print.
         """
 
-        print(Print.__line(Print.Color.ERROR_BANNER, "Error", Print.Color.ERROR_MESSAGE, message), end='')
+        print(Print._line(Print.Color.ERROR_BANNER, "Error", Print.Color.ERROR_MESSAGE, message), end='')
 
 
     @staticmethod
@@ -222,7 +222,7 @@ class Print:
 
 
     @staticmethod
-    def __line(headerColor, header, messageColor, message):
+    def _line(headerColor, header, messageColor, message):
         """
         Return a prettified line.
 
@@ -236,11 +236,11 @@ class Print:
             str: The color-formatted line.
         """
 
-        return f"{Print.__header(headerColor, header)}{Print.__message(messageColor, message)}"
+        return f"{Print._header(headerColor, header)}{Print._message(messageColor, message)}"
 
 
     @staticmethod
-    def __header(color, header):
+    def _header(color, header):
         """
         Return a prettified string of the header.
 
@@ -256,7 +256,7 @@ class Print:
 
 
     @staticmethod
-    def __message(color, message):
+    def _message(color, message):
         """
         Return a prettified string of the message.
 
