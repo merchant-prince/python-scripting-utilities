@@ -11,11 +11,11 @@ class ChangeDirectory:
         Class constructor.
 
         Args:
-            newpath (str): The new path to cd into.
+            _newpath (str): The new path to cd into.
         """
 
-        self.oldpath = os.getcwd()
-        self.newpath = newpath
+        self._oldpath = os.getcwd()
+        self._newpath = newpath
 
 
     def __enter__(self):
@@ -24,7 +24,7 @@ class ChangeDirectory:
         i.e. within the body of the associated 'with'.
         """
 
-        os.chdir(self.newpath)
+        os.chdir(self._newpath)
 
 
     def __exit__(self, etype, value, traceback):
@@ -33,4 +33,4 @@ class ChangeDirectory:
         i.e. when breaking out of the body of the associated 'with'.
         """
 
-        os.chdir(self.oldpath)
+        os.chdir(self._oldpath)

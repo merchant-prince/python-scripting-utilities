@@ -1,7 +1,9 @@
-# Python Shell Utils
+# Scripting Utilities
 
-This package consists of several utilities which are commonly used in my
+This package consists of several utilities which are commonly used in my python
 scripts.
+
+@todo: update readme.
 
 ## Installation
 

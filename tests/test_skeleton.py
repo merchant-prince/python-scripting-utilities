@@ -60,8 +60,7 @@ class TestCreateSkeleton(unittest.TestCase):
 
 
     def test_creates_skeleton_if_a_valid_structure_is_provided(self):
-        fileNameLength = 32
-        randomDirectoryName = ''.join(random.choices(string.ascii_uppercase, k=fileNameLength))
+        randomDirectoryName = ''.join(random.choices(string.ascii_uppercase, k = 32))
         validStructure = {
             randomDirectoryName: {
                 "directory_1": {},
@@ -76,30 +75,28 @@ class TestCreateSkeleton(unittest.TestCase):
         }
 
         with ChangeDirectory("/tmp"):
-            CreateSkeleton(validStructure)
+            try:
+                CreateSkeleton(validStructure)
 
-            self.assertTrue(os.path.isdir(randomDirectoryName))
+                self.assertTrue(os.path.isdir(randomDirectoryName))
 
-            with ChangeDirectory(randomDirectoryName):
-                self.assertTrue(os.path.isdir("directory_1"))
-                self.assertTrue(os.path.isfile("file_1"))
-                self.assertTrue(os.path.isdir("directory_2"))
+                with ChangeDirectory(randomDirectoryName):
+                    self.assertTrue(os.path.isdir("directory_1"))
+                    self.assertTrue(os.path.isfile("file_1"))
+                    self.assertTrue(os.path.isdir("directory_2"))
 
-                with ChangeDirectory("directory_2"):
-                    self.assertTrue(os.path.isfile("inner_file_1"))
-                    self.assertTrue(os.path.isdir("inner_directory_1"))
-                    self.assertTrue(os.path.isfile("inner_file_2"))
+                    with ChangeDirectory("directory_2"):
+                        self.assertTrue(os.path.isfile("inner_file_1"))
+                        self.assertTrue(os.path.isdir("inner_directory_1"))
+                        self.assertTrue(os.path.isfile("inner_file_2"))
 
-                self.assertTrue(os.path.isfile("file_2"))
-
-            shutil.rmtree(randomDirectoryName)
-
-            self.assertFalse(os.path.isdir(randomDirectoryName))
+                    self.assertTrue(os.path.isfile("file_2"))
+            finally:
+                shutil.rmtree(randomDirectoryName)
 
 
     def test_throws_an_exception_and_does_not_create_any_files_when_invalid_structure_provided(self):
-        fileNameLength = 32
-        randomDirectoryName = ''.join(random.choices(string.ascii_uppercase, k=fileNameLength))
+        randomDirectoryName = ''.join(random.choices(string.ascii_uppercase, k = 32))
         invalidStructure = {
             randomDirectoryName: {
                 "directory_1": [],
