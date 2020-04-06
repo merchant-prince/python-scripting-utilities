@@ -1,5 +1,15 @@
 # Scripting Utilities
 
+![Project status](https://img.shields.io/badge/status-active-brightgreen?&style=flat-square)
+&nbsp;&nbsp;&nbsp;&nbsp;
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/merchant-prince/python-scripting-utilities?label=version&style=flat-square)
+&nbsp;&nbsp;&nbsp;&nbsp;
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/harivansh-scripting-utilities?style=flat-square)
+&nbsp;&nbsp;&nbsp;&nbsp;
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/harivansh-scripting-utilities?style=flat-square)
+&nbsp;&nbsp;&nbsp;&nbsp;
+![GitHub](https://img.shields.io/github/license/merchant-prince/python-scripting-utilities?style=flat-square)
+
 This package consists of several utilities which are commonly used in my python
 scripts.
 
@@ -51,7 +61,7 @@ Print.fail() # prints: ...Failed
 
 ## Building
 
-To build a ```tar``` and ```whl``` version of the package, ```cd``` into the
+To build a **tar** and **whl** version of the package, ```cd``` into the
 root project directory, and run the following:
 
 ```sh
@@ -66,6 +76,9 @@ pip install --upgrade pip
 
 # install the necessary packages
 python3 -m pip install --upgrade setuptools twine wheel
+
+# remove the dist files if present
+rm -rf build dist harivansh_scripting_utilities.egg-info
 
 # generate the dist files
 python3 setup.py sdist bdist_wheel
