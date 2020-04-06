@@ -34,8 +34,8 @@ from scripting_utilities import ChangeDirectory
 
 # e.g.: currently in /tmp
 
-with ChangeDirectory("/innerdirectory"):
-    # currently at: /tmp/innerdirectory
+with ChangeDirectory("innerdirectory"):
+    # currently in /tmp/innerdirectory
     dosomething()
 
 # back to /tmp
