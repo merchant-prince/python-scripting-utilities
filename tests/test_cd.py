@@ -1,9 +1,10 @@
 import os
-import unittest
+from unittest import TestCase
 from scripting_utilities import ChangeDirectory
 
 
-class TestChangeDirectory(unittest.TestCase):
+class TestChangeDirectory(TestCase):
+
 
     def test_changes_directory(self):
         currentPath = os.getcwd()

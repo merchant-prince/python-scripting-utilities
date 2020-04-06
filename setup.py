@@ -6,7 +6,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name = "harivansh-scripting-utilities",
-    version = "0.0.1",
+    version = "0.1.0",
     author = "Harivansh",
     author_email = "hello@harivan.sh",
     description = "Some utilities to facilitate writing python scripts.",
@@ -16,7 +16,7 @@ setuptools.setup(
     packages = setuptools.find_packages(),
     classifiers = [
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU GPL v3.0",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX"
     ],
     python_requires = '>=3.8',

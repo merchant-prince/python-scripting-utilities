@@ -1,8 +1,9 @@
-import unittest
+from unittest import TestCase
 from scripting_utilities import Print
 
 
-class TestPrint(unittest.TestCase):
+class TestPrint(TestCase):
+
 
     def test_print_all(self):
         print("\n" * 2)
