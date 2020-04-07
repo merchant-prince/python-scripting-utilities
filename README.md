@@ -59,6 +59,43 @@ Print.ok() # prints: ...Ok
 Print.fail() # prints: ...Failed
 ```
 
+## Testing
+
+To run the tests, ```cd``` into the root project directory, and run the
+following:
+
+```sh
+python -m unittest discover
+```
+
+## Testing Builds
+
+Before pushing, we need to check whether the package is correctly formatted for
+pypi.
+
+```sh
+# setup venv
+python3 -m venv .env/venv-build-test
+
+# activate venv
+source ./.env/venv-build-test/bin/activate
+
+# upgrade pip
+pip install --upgrade pip
+
+# install the package
+pip install -e .
+
+# go in the python interpreter to check if the module is available
+python3
+
+>>> from scripting_utilities import Print
+>>> Print.info("This is an info message")
+
+...
+
+```
+
 ## Building
 
 To build a **tar** and **whl** version of the package, ```cd``` into the
@@ -66,10 +103,10 @@ root project directory, and run the following:
 
 ```sh
 # setup venv
-python3 -m venv .venv
+python3 -m venv .env/venv-build
 
 # activate venv
-source ./.venv/bin/activate
+source ./.env/venv-build/bin/activate
 
 # upgrade pip
 pip install --upgrade pip
@@ -88,13 +125,4 @@ python3 -m twine upload dist/*
 
 #   username: __token__
 #   password: pypi-api-token
-```
-
-## Testing
-
-To run the tests, ```cd``` into the root project directory, and run the
-following:
-
-```sh
-python -m unittest discover
 ```
