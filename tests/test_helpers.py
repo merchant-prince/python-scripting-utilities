@@ -1,7 +1,7 @@
 import os
 import sys
 from unittest import TestCase
-from scripting_utilities import helpers
+from harivansh_scripting_utilities import helpers
 
 
 class TestHelpers(TestCase):

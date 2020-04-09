@@ -1,9 +1,9 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as readme:
     long_description = readme.read()
 
-setuptools.setup(
+setup(
     name="harivansh-scripting-utilities",
     version="0.3.0",
     description="Some utilities to facilitate writing python scripts.",
@@ -21,7 +21,7 @@ setuptools.setup(
         "Operating System :: POSIX"
     ],
     keywords="python scripting utilities",
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     python_requires='>=3.8',
     install_requires=[
         "termcolor"
