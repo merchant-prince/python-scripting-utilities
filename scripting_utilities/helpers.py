@@ -29,7 +29,7 @@ def cd(destination):
 def tmpdir(dirname="".join(random.choices(f"{string.ascii_letters}{string.digits}_", k=64)), parentdir="/tmp"):
     """
     Create and cd into a temporary directory.
-    The aforementioned is removed when the context is exited.
+    The the created temporary directory is removed when the context is exited.
 
     Args:
         dirname (str):

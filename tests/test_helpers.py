@@ -59,7 +59,7 @@ class TestHelpers(TestCase):
     def test_injectstdin_sets_the_value_of_any_input_statements_without_prompting_the_user(self):
         answer = "world"
 
-        # we capture stdout to prevent the input prompt from printing during the test
+        # we capture stdout to prevent the input prompt from printing the question during the test
         with helpers.capturestdout():
             with helpers.injectstdin(answer):
                 input_value = input("Hello? ")

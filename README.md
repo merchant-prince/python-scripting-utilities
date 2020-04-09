@@ -10,8 +10,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
 ![GitHub](https://img.shields.io/github/license/merchant-prince/python-scripting-utilities?style=flat-square)
 
-This package consists of several utilities which are commonly used in my python
-scripts.
+This package consists of several utilities which are commonly used in my python scripts. It is available as a
+[pip package](https://pypi.org/project/harivansh-scripting-utilities).
 
 ## Installation
 
@@ -21,108 +21,14 @@ To install this package through pip, run the following:
 pip install harivansh-scripting-utilities
 ```
 
-## Usage
-
-The following classes are available in this package:
-
-### ChangeDirectory
-
-This is a context manager used to change directory.
-
-```python
-from scripting_utilities import ChangeDirectory
-
-# e.g.: currently in /tmp
-
-with ChangeDirectory("innerdirectory"):
-    # currently in /tmp/innerdirectory
-    dosomething()
-
-# back to /tmp
-```
-
-### Print
-
-This is a utility class used to print messages to the standard output.
-
-```python
-from scripting_utilities import Print
-
-Print.success("This is a success message.")
-Print.info("This is an info message.")
-Print.warning("This is a warning message.")
-Print.error("This is an error message.")
-
-Print.eol(4) # prints 4 EOLs
-
-Print.ok() # prints: ...Ok
-Print.fail() # prints: ...Failed
-```
-
 ## Testing
 
-To run the tests, ```cd``` into the root project directory, and run the
-following:
+To run the tests, ```cd``` into the root project directory, and run the following:
 
 ```sh
-python -m unittest discover
-```
-
-## Testing Builds
-
-Before pushing, we need to check whether the package is correctly formatted for
-pypi.
-
-```sh
-# setup venv
-python3 -m venv .env/venv-build-test
-
-# activate venv
-source ./.env/venv-build-test/bin/activate
-
-# upgrade pip
-pip install --upgrade pip
-
-# install the package
-pip install -e .
-
-# go in the python interpreter to check if the module is available
-python3
-
->>> from scripting_utilities import Print
->>> Print.info("This is an info message")
-
-...
-
+docker run --rm -u `id -u`:`id -g` -v "`pwd`:/application" -w "/application" python python3 -m unittest discover -s tests
 ```
 
 ## Building
 
-To build a **tar** and **whl** version of the package, ```cd``` into the
-root project directory, and run the following:
-
-```sh
-# setup venv
-python3 -m venv .env/venv-build
-
-# activate venv
-source ./.env/venv-build/bin/activate
-
-# upgrade pip
-pip install --upgrade pip
-
-# install the necessary packages
-python3 -m pip install --upgrade setuptools twine wheel
-
-# remove the dist files if present
-rm -rf build dist harivansh_scripting_utilities.egg-info
-
-# generate the dist files
-python3 setup.py sdist bdist_wheel
-
-# upload to pypi
-python3 -m twine upload dist/*
-
-#   username: __token__
-#   password: pypi-api-token
-```
+@todo: ADD SCRIPT TO BUILD THE TAR AND WHL PACKAGES

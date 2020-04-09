@@ -1,5 +1,4 @@
 .env/
-.vscode/
 .idea/
 
 tests/__pycache__/
@@ -7,4 +6,4 @@ scripting_utilities/__pycache__/
 
 dist/
 build/
-harivansh_scripting_utilities.egg-info
+harivansh_scripting_utilities.egg-info/
