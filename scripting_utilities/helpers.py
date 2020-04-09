@@ -35,8 +35,7 @@ def tmpdir(dirname="".join(random.choices(f"{string.ascii_letters}{string.digits
         dirname (str):
             The name of the temporary directory to create and cd into.
         parentdir (str):
-            The name of the directory where the temporary directory will be
-            created.
+            The name of the directory where the temporary directory will be created.
     """
 
     with cd(parentdir):
