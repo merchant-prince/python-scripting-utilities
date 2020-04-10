@@ -26,9 +26,22 @@ pip install harivansh-scripting-utilities
 To run the tests, ```cd``` into the root project directory, and run the following:
 
 ```sh
-docker run --rm -u `id -u`:`id -g` -v "`pwd`:/application" -w "/application" python python3 -m unittest discover -s tests
+./run.py test
 ```
 
 ## Building
 
-@todo: ADD SCRIPT TO BUILD THE TAR AND WHL PACKAGES
+To build the **whl** and **tar** packages, ```cd``` into the root project directory, and run the following:
+
+```sh
+./run.py build
+```
+
+## Pushing
+
+To push the build package to pypi, first make sure the **.credentials** file is populated with your username, and
+password. Then run the following command:
+
+```sh
+./run.py build --push
+```

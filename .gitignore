@@ -1,5 +1,6 @@
 .env/
 .idea/
+.credentials
 
 tests/__pycache__/
 harivansh_scripting_utilities/__pycache__/
