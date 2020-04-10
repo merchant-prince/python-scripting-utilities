@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setup(
     name="harivansh-scripting-utilities",
-    version="0.3.0",
+    version="0.3.1",
     description="Some utilities to facilitate writing python scripts.",
     long_description=long_description,
     long_description_content_type="text/markdown",
