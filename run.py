@@ -21,33 +21,37 @@ def env(filepath):
     return result
 
 
+def build_image(target):
+    name = "harivansh_scripting_utilities_docker_image"
+    tag = "development"
+    uid = os.geteuid()
+    gid = os.getegid()
+
+    run(["docker", "build",
+         "--build-arg", f"USER={uid}",
+         "--build-arg", f"GROUP={gid}",
+         "--target", target,
+         "--tag", f"{name}:{tag}",
+         "."],
+        check=True)
+
+    return name, tag, uid, gid
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=f"Test or build (and optionally push) the current python project.")
     parser.add_argument("action", choices=("build", "test"), help="Define an action to take.")
     parser.add_argument("--rebuild", action="store_true", default=False, help="Whether to rebuild the docker image.")
     parser.add_argument("--push", action="store_true", default=False, help="Whether to push the project to pypi.")
     arguments = parser.parse_args()
-    image = {
-        "name": "harivansh_scripting_utilities_docker_image",
-        "tag": "development"
-    }
-    environment = {
-        "uid": os.geteuid(),
-        "gid": os.getegid()
-    }
-
-    run(["docker", "build",
-         "--build-arg", f"USER={environment['uid']}",
-         "--build-arg", f"GROUP={environment['gid']}",
-         "--tag", f"{image['name']}:{image['tag']}",
-         "."],
-        check=True)
 
     if arguments.action == "test":
+        name, tag, uid, gid = build_image("test")
+
         run(["docker", "run",
              "--rm",
-             "--user", f"{os.geteuid()}:{os.getegid()}",
-             f"{image['name']}:{image['tag']}",
+             "--user", f"{uid}:{gid}",
+             f"{name}:{tag}",
              "python3", "-m", "unittest", "discover", "-s", "tests"],
             check=True)
 
@@ -59,11 +63,13 @@ if __name__ == "__main__":
 
         os.mkdir(dist_dirname)
 
+        name, tag, uid, gid = build_image("build")
+
         run(["docker", "run",
              "--rm",
-             "--user", f"{os.geteuid()}:{os.getegid()}",
+             "--user", f"{uid}:{gid}",
              "--mount", f"type=bind,source={os.getcwd()}/{dist_dirname},dst=/application/{dist_dirname}",
-             f"{image['name']}:{image['tag']}",
+             f"{name}:{tag}",
              "python3", "setup.py", "sdist", "bdist_wheel"],
             check=True)
 
@@ -72,9 +78,9 @@ if __name__ == "__main__":
 
             run(["docker", "run",
                  "--rm",
-                 "--user", f"{os.geteuid()}:{os.getegid()}",
+                 "--user", f"{uid}:{gid}",
                  "--mount", f"type=bind,source={os.getcwd()}/{dist_dirname},dst=/application/{dist_dirname},readonly",
-                 f"{image['name']}:{image['tag']}",
+                 f"{name}:{tag}",
                  "twine", "upload",
                  "--username", credentials["USERNAME"], "--password", credentials["PASSWORD"],
                  "dist/*"],

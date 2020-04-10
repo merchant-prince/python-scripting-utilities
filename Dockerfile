@@ -1,5 +1,5 @@
-FROM python:latest
-#add multistage build for test and build
+FROM python:latest as test
+
 LABEL maintainer=hello@harivan.sh
 
 ARG USER
@@ -17,5 +17,9 @@ WORKDIR /application
 VOLUME [ "/application/dist" ]
 
 RUN pip install --upgrade pip \
- && pip install --upgrade setuptools wheel twine \
  && pip install -r requirements.txt
+
+
+FROM test as build
+
+RUN pip install --upgrade setuptools wheel twine
