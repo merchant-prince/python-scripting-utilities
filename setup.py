@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setup(
     name="harivansh-scripting-utilities",
-    version="0.3.1",
+    version="0.3.2",
     description="Some utilities to facilitate writing python scripts.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -21,7 +21,7 @@ setup(
         "Operating System :: POSIX"
     ],
     keywords="python scripting utilities",
-    packages=find_packages(),
+    packages=["harivansh_scripting_utilities"],
     python_requires='>=3.8',
     install_requires=[
         "termcolor"
