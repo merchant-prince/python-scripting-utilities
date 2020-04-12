@@ -15,11 +15,3 @@ def warning(message):
 
 def error(message):
     return colored(f"[ ERROR ]: {message}", "red")
-
-
-def ok():
-    return colored("...Ok", "green")
-
-
-def failed():
-    return colored("...Failed", "red")

@@ -2,9 +2,9 @@
 .idea/
 .credentials
 
-tests/__pycache__/
 harivansh_scripting_utilities/__pycache__/
 
+tests/__pycache__/
+tests/harivansh_scripting_utilities/__pycache__/
+
 dist/
-build/
-harivansh_scripting_utilities.egg-info/

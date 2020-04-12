@@ -9,53 +9,52 @@ from subprocess import run
 
 
 def env(filepath):
-    env_regex = re.compile(r"^(?P<key>\w+)=(?P<value>.*)$")
+    key_value_regex = re.compile(r"^(?P<key>\w+)=(?P<value>.*)$")
     result = {}
 
-    with open(filepath) as envfile:
-        for line in envfile:
+    with open(filepath) as dotfile:
+        for line in dotfile:
             line = line.strip()
-            matches = env_regex.match(line).groupdict()
+            matches = key_value_regex.match(line).groupdict()
             result[matches["key"]] = matches["value"]
 
     return result
 
 
-def build_image(target):
-    name = "harivansh_scripting_utilities_docker_image"
-    tag = "development"
-    uid = os.geteuid()
-    gid = os.getegid()
-
+def build_image(name, tag, target):
     run(["docker", "build",
-         "--build-arg", f"USER={uid}",
-         "--build-arg", f"GROUP={gid}",
+         "--file", "dev.Dockerfile",
+         "--build-arg", f"USER={os.geteuid()}",
+         "--build-arg", f"GROUP={os.getegid()}",
          "--target", target,
          "--tag", f"{name}:{tag}",
          "."],
         check=True)
 
-    return name, tag, uid, gid
-
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=f"Test or build (and optionally push) the current python project.")
+    parser = argparse.ArgumentParser(description="Test or build (and optionally push) the current python project.")
     parser.add_argument("action", choices=("build", "test"), help="Define an action to take.")
-    parser.add_argument("--rebuild", action="store_true", default=False, help="Whether to rebuild the docker image.")
     parser.add_argument("--push", action="store_true", default=False, help="Whether to push the project to pypi.")
     arguments = parser.parse_args()
 
+    image_name = "harivansh_scripting_utilities_docker_image"
+
     if arguments.action == "test":
-        name, tag, uid, gid = build_image("test")
+        image_tag = "test"
+        build_image(image_name, image_tag, target="test")
 
         run(["docker", "run",
              "--rm",
-             "--user", f"{uid}:{gid}",
-             f"{name}:{tag}",
-             "python3", "-m", "unittest", "discover", "-s", "tests"],
+             "--user", f"{os.geteuid()}:{os.getegid()}",
+             f"{image_name}:{image_tag}",
+             "python3", "-m", "unittest", "discover", "-s", "tests/harivansh_scripting_utilities"],
             check=True)
 
     elif arguments.action == "build":
+        image_tag = "build"
+        build_image(image_name, image_tag, target="build")
+
         dist_dirname = "dist"
 
         if os.path.isdir(dist_dirname):
@@ -63,13 +62,11 @@ if __name__ == "__main__":
 
         os.mkdir(dist_dirname)
 
-        name, tag, uid, gid = build_image("build")
-
         run(["docker", "run",
              "--rm",
-             "--user", f"{uid}:{gid}",
+             "--user", f"{os.getuid()}:{os.getegid()}",
              "--mount", f"type=bind,source={os.getcwd()}/{dist_dirname},dst=/application/{dist_dirname}",
-             f"{name}:{tag}",
+             f"{image_name}:{image_tag}",
              "python3", "setup.py", "sdist", "bdist_wheel"],
             check=True)
 
@@ -78,11 +75,12 @@ if __name__ == "__main__":
 
             run(["docker", "run",
                  "--rm",
-                 "--user", f"{uid}:{gid}",
+                 "--user", f"{os.geteuid()}:{os.getegid()}",
                  "--mount", f"type=bind,source={os.getcwd()}/{dist_dirname},dst=/application/{dist_dirname},readonly",
-                 f"{name}:{tag}",
+                 f"{image_name}:{image_tag}",
                  "twine", "upload",
-                 "--username", credentials["USERNAME"], "--password", credentials["PASSWORD"],
+                 "--username", credentials["USERNAME"],
+                 "--password", credentials["PASSWORD"],
                  "dist/*"],
                 check=True)
 

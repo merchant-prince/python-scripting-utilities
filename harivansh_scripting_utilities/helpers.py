@@ -53,6 +53,10 @@ def capturestdout():
     """
     Suppress the standard output and redirect it to another buffer.
 
+    Yields:
+        new_stdout (StringIO):
+            The new stdout.
+
     Usage:
         with suppress_stdout() as stdout:
             do_something()
