@@ -26,7 +26,7 @@ pip install harivansh-scripting-utilities
 To run the tests, ```cd``` into the root project directory, and run the following:
 
 ```sh
-./run.py test
+./dev.py test
 ```
 
 ## Building
@@ -34,7 +34,7 @@ To run the tests, ```cd``` into the root project directory, and run the followin
 To build the **whl** and **tar** packages, ```cd``` into the root project directory, and run the following:
 
 ```sh
-./run.py build
+./dev.py build
 ```
 
 ## Pushing
@@ -43,5 +43,5 @@ To push the build package to pypi, first make sure the **.credentials** file is 
 password. Then run the following command:
 
 ```sh
-./run.py build --push
+./dev.py build --push
 ```
